@@ -139,7 +139,7 @@ public class LdapRealm extends DefaultLdapRealm {
   // walks the chain of ancestry in objects all the way to the root until it finds a match
   // see https://msdn.microsoft.com/en-us/library/aa746475(v=vs.85).aspx
   private static final String MATCHING_RULE_IN_CHAIN_FORMAT =
-      "(&(objectClass=%s)(%s:1.2.840.113556.1.4.1941:=%s))";
+        "(&(objectClass=%s)(%s))";
 
   private static final String DEFAULT_PRINCIPAL_REGEX = "(.*)";
   private static final String MEMBER_SUBSTITUTION_TOKEN = "{0}";
@@ -363,7 +363,7 @@ public class LdapRealm extends DefaultLdapRealm {
           searchResultEnum = ldapCtx.search(
               getGroupSearchBase(),
               String.format(
-                  MATCHING_RULE_IN_CHAIN_FORMAT, groupObjectClass, memberAttribute, userDn),
+                  MATCHING_RULE_IN_CHAIN_FORMAT, groupObjectClass, userDn.replace("uid","memberUid")),
               searchControls);
           while (searchResultEnum != null && searchResultEnum.hasMore()) {
             // searchResults contains all the groups in search scope
